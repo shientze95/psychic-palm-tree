@@ -1,0 +1,19 @@
+//Login to mysql from command line
+cd c:\xampp\mysql\bin
+mysql.exe -u root --password
+
+//Show all current Database
+show databases;
+
+//Create database
+create database assignment1;
+
+//Use the database
+use assignment1;
+
+//Create table of customer
+create table customer(email varchar(255),cname char(255),cpass varchar(255),cconpass varchar(255),cphone int(255),PRIMARY KEY(email));
+
+//Create table of booking
+create table booking(genbooknum int(255),cmail varchar(255),cnumber int(255),pickupaddr varchar(255),suburv varchar(255),pickdate varchar(255)
+,genbookdate varchar(255),status char(255) Default 'Unassigned',Primary key(genbooknum),foreign key(cmail) references customer(email));
