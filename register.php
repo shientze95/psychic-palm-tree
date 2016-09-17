@@ -37,7 +37,6 @@
 	</body>
 	<?php
 	session_start();
-	//connecting to the database
 	define('DB_HOST','localhost');
 	define('DB_NAME','assignment1');
 	define('DB_USER','root');
@@ -47,12 +46,8 @@
 	$con=mysql_connect(DB_HOST,DB_USER,DB_PASSWORD) or die("Failed to connect to MySQL: " . mysql_error());
 	$db=mysql_select_db(DB_NAME,$con) or die("Failed to connect to MySQL: " . mysql_error());
 
-	//if(isset($_POST['inputname']) && isset($_POST['inputpass'])&& isset($_POST['inputconpass'])&& isset($_POST['inputemail'])&& isset($_POST['inputphn']) && isset($_POST['submit']))
-	if (empty($_POST['inputname']) || empty($_POST['inputpass']) || empty($_POST['inputconpass']) || empty($_POST['inputemail']) || empty($_POST['inputphn']) || empty($_POST['submit']))
-	{
-		echo "Please fill everything.";
-	}
-	else
+	//Check if all input is empty
+	if (!empty($_POST['inputname']) && !empty($_POST['inputpass']) && !empty($_POST['inputconpass']) && !empty($_POST['inputemail']) && !empty($_POST['inputphn']))
 	{
 		$cusname = $_POST['inputname'];
 		$cuspass = $_POST['inputpass'];
@@ -61,19 +56,33 @@
 		$cusemail = $_POST['inputemail'];
 		$cusphn = $_POST['inputphn'];
 
-		$cuspasshash=hash('md5',$_POST['inputpass']);
+		$usedemail = mysql_query("SELECT Customer_Email FROM customer where Customer_Email = '$cusemail'") or exit(mysql_error());
 
+		//hash user Password
+		$cuspasshash=hash('md5',$_POST['inputpass']);
+		//check if Password is the same
 		if($cusconpass != $cuspass)
 		{
 			echo "Password do not match.";
 		}
+		else if (mysql_num_rows($usedemail))
+		{
+			echo "This email is already being used.";
+		}
 		else
 		{
+			//Insert user input into the customer table
 			$sql =mysql_query("INSERT INTO customer (Customer_Email,Customer_Name,Customer_Password,Customer_PhoneNo) VALUES('$cusemail','$cusname','$cuspasshash','$cusphn')");
+			//redirect user to booking page
 			header( "Location: booking.php" ); die;
 		}
 
 	}
+	else
+	{
+		echo "Please fill everything.";
+	}
+	//close connection
 	mysql_close($con);
 	?>
 </html>
