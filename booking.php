@@ -41,6 +41,6 @@
 					<td><input type="submit" value="Book" /></td>
 				</tr>
 			</table>
-		</form>		
+		</form>
 	</body>
 </html>

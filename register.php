@@ -29,13 +29,14 @@
 					<td><input type="text" name="inputphn" placeholder="Phone"></td>
 				</tr>
 				<tr>
-					<td><input type="submit" name="submit" value="Register" /></td>
+					<td><input type="submit" name="submit" value="Register"/></td>
 				</tr>
 			</table>
 		</form>
 		<H2>Already registered? <a href="login.php">Login Here</a></H2>
 	</body>
 	<?php
+	session_start();
 	//connecting to the database
 	define('DB_HOST','localhost');
 	define('DB_NAME','assignment1');
@@ -51,16 +52,16 @@
 	{
 		echo "Please fill everything.";
 	}
-	else if(!empty($_POST['inputname']) || !empty($_POST['inputpass']) || !empty($_POST['inputconpass']) || !empty($_POST['inputemail']) || !empty($_POST['inputphn']) || !empty($_POST['submit']))
+	else
 	{
 		$cusname = $_POST['inputname'];
 		$cuspass = $_POST['inputpass'];
 		$cusconpass = $_POST['inputconpass'];
+		$valuename =$_SESSION['inputname']  ;
 		$cusemail = $_POST['inputemail'];
 		$cusphn = $_POST['inputphn'];
 
 		$cuspasshash=hash('md5',$_POST['inputpass']);
-		$cusconpasshash = hash('md5',$_POST['inputconpass']);
 
 		if($cusconpass != $cuspass)
 		{
@@ -68,11 +69,9 @@
 		}
 		else
 		{
-			$sql =mysql_query("INSERT INTO customer (email,cname,cpass,cconpass,cphone) VALUES('$cusemail','$cusname','$cuspasshash','$cusconpasshash','$cusphn')");
+			$sql =mysql_query("INSERT INTO customer (Customer_Email,Customer_Name,Customer_Password,Customer_PhoneNo) VALUES('$cusemail','$cusname','$cuspasshash','$cusphn')");
+			header( "Location: booking.php" ); die;
 		}
-	}
-	else
-	{
 
 	}
 	mysql_close($con);
