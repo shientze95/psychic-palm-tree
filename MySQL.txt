@@ -12,8 +12,8 @@ create database assignment1;
 use assignment1;
 
 //Create table of customer
-create table customer(email varchar(255),cname char(255),cpass varchar(255),cconpass varchar(255),cphone int(255),PRIMARY KEY(email));
+create table customer(Customer_Email varchar(25),Customer_Name char(25),Customer_Password varchar(25),Customer_PhoneNo int(25),PRIMARY KEY(Customer_Email));
 
 //Create table of booking
-create table booking(genbooknum int(255),cmail varchar(255),cnumber int(255),pickupaddr varchar(255),suburv varchar(255),pickdate varchar(255)
-,genbookdate varchar(255),status char(255) Default 'Unassigned',Primary key(genbooknum),foreign key(cmail) references customer(email));
+create table booking(Gen_num int(25),Customer_email varchar(25),Customer_name varchar(25),Customer_num varchar(25),Unit_num varchar(25),Street_num varchar(25),Street_name varchar(25),suburb varchar(25),Des_suburb varchar(25),Pickup_date varchar(25),Pickup_time varchar(25)
+,Gen_date varchar(25),Gen_time varchar(25),status char(255) Default 'Unassigned',Primary key(Gen_num),foreign key(Customer_email) references customer(Customer_Email));

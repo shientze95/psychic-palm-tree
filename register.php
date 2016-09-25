@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<title>Register to CabsOnline</title>
@@ -49,11 +49,12 @@
 	//Check if all input is empty
 	if (!empty($_POST['inputname']) && !empty($_POST['inputpass']) && !empty($_POST['inputconpass']) && !empty($_POST['inputemail']) && !empty($_POST['inputphn']))
 	{
+		session_start();
 		$cusname = $_POST['inputname'];
 		$cuspass = $_POST['inputpass'];
 		$cusconpass = $_POST['inputconpass'];
-		$valuename =$_SESSION['inputname']  ;
 		$cusemail = $_POST['inputemail'];
+		$_SESSION['inputemail'] =$cusemail;
 		$cusphn = $_POST['inputphn'];
 
 		$usedemail = mysql_query("SELECT Customer_Email FROM customer where Customer_Email = '$cusemail'") or exit(mysql_error());
