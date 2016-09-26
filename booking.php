@@ -51,11 +51,12 @@
 	define('DB_PASSWORD','');
 	session_start();
 	//Create connection
-	$con = mysql_connect(DB_HOST,DB_USER,DB_PASSWORD) or die("Failed to connect to MySQL: " . mysql_error());
+	$con = mysql_connect(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME) or die("Failed to connect to MySQL: " . mysql_error());
 	$db = mysql_select_db(DB_NAME,$con) or die("Failed to connect to MySQL: " . mysql_error());
 	//Set default time zone
 	date_default_timezone_set("Asia/Kuching");
-	echo "Current Server Time:".date('l jS \of F Y h:i A T Y')."<br>";
+	echo "Current Server Time:".date('l jS \of F Y h:i A')."<br>";
+
 	//Check if inputs are empty
 	if (!empty($_POST['inputname']) && !empty($_POST['inputcontact']) && !empty($_POST['streetnum']) && !empty($_POST['streetname']) && !empty($_POST['suburb'])&& !empty($_POST['dessuburb'])&& !empty($_POST['pickdate'])&&
 	!empty($_POST['picktime']))
@@ -69,12 +70,13 @@
 		$suburb = $_POST['suburb'];
 		$dessuburb = $_POST['dessuburb'];
 		$pickdate = $_POST['pickdate'];
-		$picktime = $_POST['picktime'];;
+		$picktime = $_POST['picktime'];
 		$gendate = date('Y-m-d');
-		$gentime = date('h:i');
-		//Time and date differences
-		$remainder = strtotime($picktime) - strtotime(date('h:i'));
-		$remainder1 =strtotime($gendate) -strtotime($pickdate);
+		$gentime = date('H:i:A');//Time and date differences
+		//Time
+		$remainder = strtotime($picktime) - strtotime(date('H:i'));
+		//Date
+		$remainder1 =strtotime($gendate) - strtotime($pickdate);
 		//Check if input date save as current date
 		if (strcmp($pickdate, date('Y-m-d')) == 0)
 		{
@@ -84,6 +86,8 @@
 				//Add the booking to database
 				$sql =mysql_query("INSERT INTO booking (Customer_email,Customer_name,Customer_num,Unit_num,Street_num,Street_name,suburb,Des_suburb,Pickup_date,Pickup_time,Gen_date,Gen_time)
 				VALUES('$cusemail','$cusname','$cuscontact','$unitnum','$streetnum','$streetname','$suburb','$dessuburb','$pickdate','$picktime','$gendate','$gentime')");
+				 $last_id = mysql_insert_id($con);
+				echo "Thanks you! Your booking reference number is $last_id. We will pick up the passengers in front of your provided address at $picktime on $pickdate.";
 			}
 			else
 			{
@@ -98,13 +102,14 @@
 		//Check if input date is after current date
 		else
 		{
-			$sql =mysql_query("INSERT INTO booking (Customer_name,Customer_num,Unit_num,Street_num,Street_name,suburb,Des_suburb,Pickup_date,Pickup_time,Gen_date,Gen_time)
-			VALUES('$cusname','$cuscontact','$unitnum','$streetnum','$streetname','$suburb','$dessuburb','$pickdate','$picktime','$gendate','$gentime')");
+			$sql =mysql_query("INSERT INTO booking (Customer_name,Customer_email,Customer_num,Unit_num,Street_num,Street_name,suburb,Des_suburb,Pickup_date,Pickup_time,Gen_date,Gen_time)
+			VALUES('$cusname','$cusemail','$cuscontact','$unitnum','$streetnum','$streetname','$suburb','$dessuburb','$pickdate','$picktime','$gendate','$gentime')");
+			$last_id = mysql_insert_id($con);
+			echo "Thanks you! Your booking reference number is $last_id. We will pick up the passengers in front of your provided address at $picktime on $pickdate.";
 		}
 	}
 	else
 	{
 		echo "Please fill everything";
 	}
-
 ?>

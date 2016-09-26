@@ -54,7 +54,6 @@
 		$cuspass = $_POST['inputpass'];
 		$cusconpass = $_POST['inputconpass'];
 		$cusemail = $_POST['inputemail'];
-		$_SESSION['inputemail'] =$cusemail;
 		$cusphn = $_POST['inputphn'];
 
 		$usedemail = mysql_query("SELECT Customer_Email FROM customer where Customer_Email = '$cusemail'") or exit(mysql_error());
@@ -75,7 +74,7 @@
 			//Insert user input into the customer table
 			$sql =mysql_query("INSERT INTO customer (Customer_Email,Customer_Name,Customer_Password,Customer_PhoneNo) VALUES('$cusemail','$cusname','$cuspasshash','$cusphn')");
 			//redirect user to booking page
-			header( "Location: booking.php" ); die;
+			header( "Location: login.php" ); die;
 		}
 
 	}
