@@ -3,17 +3,19 @@ cd c:\xampp\mysql\bin
 mysql.exe -u root --password
 
 //Show all current Database
-show databases;
+SHOW databases;
 
 //Create database
-create database assignment1;
+CREATE database assignment1;
 
 //Use the database
-use assignment1;
+USE assignment1;
 
 //Create table of customer
-create table customer(Customer_Email varchar(25),Customer_Name char(25),Customer_Password varchar(25),Customer_PhoneNo int(25),PRIMARY KEY(Customer_Email));
+CREATE TABLE customer(Customer_Email varchar(25),Customer_Name char(25),Customer_Password varchar(25),Customer_PhoneNo int(25),PRIMARY KEY(Customer_Email));
 
 //Create table of booking
-create table booking(Gen_num int(25),Customer_email varchar(25),Customer_name varchar(25),Customer_num varchar(25),Unit_num varchar(25),Street_num varchar(25),Street_name varchar(25),suburb varchar(25),Des_suburb varchar(25),Pickup_date varchar(25),Pickup_time varchar(25)
-,Gen_date varchar(25),Gen_time varchar(25),status char(255) Default 'Unassigned',Primary key(Gen_num),foreign key(Customer_email) references customer(Customer_Email));
+CREATE TABLE booking(Gen_num int(255) AUTO_INCREMENT,Customer_email varchar(25),Customer_name varchar(25),Customer_num char(255),Unit_num int(255),Street_num int(255),
+Street_name varchar(25),suburb varchar(25),Des_suburb varchar(25),Pickup_date varchar(25),Pickup_time varchar(25)
+,Gen_date varchar(25),Gen_time varchar(25),status char(255) Default 'Unassigned',Primary key(Gen_num),
+foreign key(Customer_email) references customer(Customer_Emails);

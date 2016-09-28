@@ -36,16 +36,8 @@
 		<H2>Already registered? <a href="login.php">Login Here</a></H2>
 	</body>
 	<?php
+	include 'datatable.php';
 	session_start();
-	define('DB_HOST','localhost');
-	define('DB_NAME','assignment1');
-	define('DB_USER','root');
-	define('DB_PASSWORD','');
-
-	//create connnection
-	$con=mysql_connect(DB_HOST,DB_USER,DB_PASSWORD) or die("Failed to connect to MySQL: " . mysql_error());
-	$db=mysql_select_db(DB_NAME,$con) or die("Failed to connect to MySQL: " . mysql_error());
-
 	//Check if all input is empty
 	if (!empty($_POST['inputname']) && !empty($_POST['inputpass']) && !empty($_POST['inputconpass']) && !empty($_POST['inputemail']) && !empty($_POST['inputphn']))
 	{
